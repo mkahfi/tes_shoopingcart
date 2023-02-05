@@ -1,0 +1,86 @@
+
+<section class="content">
+	<div class="row" ng-init="fn_item('item');fn_customer('customer');fn_promo('promo');fn_generate();">
+		<div class="col-md-12">
+            <div class="info-box shadow-box">
+              
+                <span class="info-box-icon bg-orange"><img width="60" class="img-box" src="assets/logo.png" alt="User Avatar"></span>
+                <div class="info-box-content">
+                    <div ng-repeat="inVal in promo">
+                        <h4> <span ng-bind="myhead"></span>{{inVal.promo_name}}</h4>
+                    </div>
+                    
+                    <button class="btn btn-info btn-flat pull-right" ng-click="show_modal()">Keranjang</button>
+                </div>
+            </div>
+        </div>
+        {{generateid}}
+        <div ng-repeat="val in item">
+            <div class="col-md-3">
+                <div class="info-box shadow-box" style="min-height: 120px !important;">
+                    <span class="info-box-icon" style="background-color: transparent;"><img style="padding: 10px;" height="70" src="../assets/shopping.png" alt="User Avatar"></span>
+                    <span class="info-box-icon pull-left" style="font-size: 15px;text-align: justify; line-height: 20px;padding-top:15px;padding-bottom:15px;background-color: transparent;">{{val.product_name}} <br/> {{val.price}}</span>
+                
+                    <span class="pull-right btn btn-info btn-flat" ng-click="luxor_statement_checkout(val)"><i class="fa fa-plus"></i>
+                </div>
+            </div>
+
+        </div>
+	</div>
+</section>  
+<div class="row small-spacing">
+    <div class="modal fade bd-example-modal-xl shadow-box" id="modal-activity-y" tabindex="-1" role="dialog" style="overflow: scroll;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="row small-spacing font-poppins" style="margin-bottom:20px;">
+                    <div class="col-xs-10">
+                        <h3 class="box-title font-poppins" style="margin-bottom:15px;margin-left:5%;margin-top: 5%;">Keranjang Belanja</h3>
+                    </div>
+                   
+                </div>
+                <div class="row small-spacing font-poppins">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:5%;">
+                        <table class="table table-striped table-bordered table-condensed table-hover" >
+                            <thead>
+                                <tr>
+                                    <td align="center" width="50"><strong>#</strong></td>
+                                    <td width="200"><strong>Item</strong></td>
+                                    <td width="200"><strong>Harga</strong></td>
+                                    <td width="200"><strong>Qty</strong></td>
+                                    <td width="200"><strong>Sub Total</strong></td>
+                                    <td width="100" align="center"><strong></strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td ng-show="cart.length === 0 " align="center" colspan="6" ng-bind="'Silahkan Pilih Item Anda'" ></td>
+                                </tr>
+                                <tr ng-repeat="(key, value) in cart | orderBy:sortBy" ng-if="$index >= (currentpage*pagesize) && $index < ((currentpage+1)*pagesize)">
+                                    <td align="center" ng-bind="$index+1"></td>
+                                    <td ng-bind="value.item_name"></td>
+                                    <td ng-bind="value.item_qty"></td>
+                                    <td ng-bind="value.item_price"></td>
+                                    <td ng-bind="value.item_price * value.item_qty"></td>
+                                    <td align="center">
+                                        <a href="javascript:void(0)" class="btn btn-xs btn-danger btn-flat shadow-box" ng-click="luxor_state_detail(value.kd_brgbaru,value.kd_lokasi,value.no_aset)"><span class="fa fa-trash"></span> &nbsp;</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-xs-12 pull-right" style="margin-top: 20px;text-align: right; margin-bottom: 20px;">
+                            <button class="btn btn-xs btn-info btn-flat" ng-click="currentpage=0"><i class="fa fa-fast-backward"></i></button>
+                            <button class="btn btn-xs btn-info btn-flat" ng-click="paging(0)"><i class="fa fa-step-backward"></i></button>
+                            <button class="btn btn-xs btn-info btn-flat" ng-click="paging(1)"><i class="fa fa-step-forward"></i></button>
+                            <button class="btn btn-xs btn-danger btn-flat" ng-click="currentpage=pagenumber-1"><i class="fa fa-fast-forward"></i></button>
+                        </div>
+                        <h3>Total: {{ getTotal() | currency }}</h3>
+                        <button class="btn btn-primary btn-flat pull-right" ng-click="luxor_statement_invoice();">Checkout<i class="fa fa-paper-plane"></i></button>    
+                            
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
