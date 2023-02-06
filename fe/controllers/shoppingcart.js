@@ -139,4 +139,8 @@ angular.module('shopping').controller('shoppingcart', function ($scope, $rootSco
         console.log('total: ' + total);
         return total;
     };
+    $scope.removeItem = function(item) {
+        var index = $scope.cart.indexOf(item);
+        $scope.cart.splice(index, 1);
+      };
 })

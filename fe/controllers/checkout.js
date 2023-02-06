@@ -40,6 +40,7 @@ angular.module('shopping').controller('checkout', function ($scope, $rootScope, 
                     }).then(function(respone){
                         if(response.data.status === true) {
                             Notification.success({message: 'Berhasil diproses &nbsp; <i class="fa fa-cloud-upload"></i>', positionY: 'top', positionX: 'right'});
+                            $location.path("/");
                         }else{
                             Notification.warning({message: 'Gagal di proses &nbsp; <i class="fa fa-cloud-upload"></i>', positionY: 'top', positionX: 'right'});
                         }
