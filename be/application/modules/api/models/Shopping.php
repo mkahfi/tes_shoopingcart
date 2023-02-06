@@ -32,13 +32,23 @@ class Shopping extends CI_Model{
     }
     public function checkoutstok(){
         foreach ($this->params['variable'] as $value) {
-            $this->db->where('pcode', $value['id'])->update('stock', array(
-                'jumlah' => 'jumlah' - $value['item_qty']
-            ));
+            $ab = $this->db->where('pcode', $value['id'])->get('stock')->row();
+            if($ab){
+                $this->db->where('pcode', $value['id'])->update('stock', array(
+                    'jumlah' => $ab->jumlah - $value['item_qty']
+                ));
+            }
+
         }
         return true;
     }
     public function mutasi(){
+        ini_set('memory_limit', '16069M');
+        ini_set('client_buffer_max_kb_size', 998069);
+        ini_set('sqlsrv.ClientBufferMaxKBSize', 998069);
+        ini_set('max_execution_time', 0);
+        error_reporting(-1);
+        ini_set('display_errors', 1); 
         try {
             $data = [];
             $detailx = [];
@@ -54,10 +64,7 @@ class Shopping extends CI_Model{
                 );
                 array_push($solis, $data);
             }
-            $this->db->reconnect();
             $amazon = $this->db->insert_batch('mutasi_stock', $solis);
-            $this->db->close();
-            $this->db->reconnect();
             if($amazon) {
                 $header_order = array(
                     'order_id' => $this->params['cust_id'],
@@ -69,10 +76,7 @@ class Shopping extends CI_Model{
                     'ppn' => $this->params['ppn'],
                     'total'=> $this->params['total']
                 );
-                $this->db->reconnect();
                 $order = $this->db->insert('order_header', $header_order);
-                $this->db->close();
-              
                 if($order){ 
                     foreach ($this->params['variable'] as $valuetf) {
                         $detailx = array(
@@ -84,10 +88,7 @@ class Shopping extends CI_Model{
                         );
                         array_push($solis_detail, $detailx);
                     }
-                    // return $solis_detail;
-                    $this->db->reconnect();
                     $detail_order = $this->db->insert_batch('order_detail', $solis_detail);
-                    $this->db->close();
                     if($detail_order){
                         return true;
                     }else{

@@ -62,7 +62,7 @@
                                     <td ng-bind="value.item_price"></td>
                                     <td ng-bind="value.item_price * value.item_qty"></td>
                                     <td align="center">
-                                        <a href="javascript:void(0)" class="btn btn-xs btn-danger btn-flat shadow-box" ng-click="luxor_state_detail(value.kd_brgbaru,value.kd_lokasi,value.no_aset)"><span class="fa fa-trash"></span> &nbsp;</a>
+                                        <a href="javascript:void(0)" class="btn btn-xs btn-danger btn-flat shadow-box" ng-click="removeItem(value);"><span class="fa fa-trash"></span> &nbsp;</a>
                                     </td>
                                 </tr>
                             </tbody>
